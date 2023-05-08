@@ -11,6 +11,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -21,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -33,6 +37,23 @@ import androidx.compose.ui.unit.dp
 import com.example.jetpackexample.ui.theme.JetpackExampleTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val puppyList = mutableListOf<Puppy>()
+
+    init {
+        for (i in 0..100) {
+            puppyList.add(
+                Puppy(
+                    i,
+                    "Dog $i",
+                    if (i % 2 == 0) "F" else "M",
+                    i,
+                    "This a level $i breed"
+                )
+            )
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -42,9 +63,110 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    ListView(applicationContext)
+//                    ListView(applicationContext)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        SearchView()
+                        AnimalView(puppy = puppyList)
+                    }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun SearchView() {
+
+    var searchText by remember { mutableStateOf(TextFieldValue("")) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            contentDescription = "Image Testing"
+        )
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(),
+            backgroundColor = Color.LightGray,
+            border = BorderStroke(1.dp, Color.Gray)
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_search),
+                    contentDescription = "Search Icon"
+                )
+
+                OutlinedTextField(
+                    value = searchText, onValueChange = { newText ->
+                        searchText = newText
+                    }
+                )
+            }
+
+        }
+
+    }
+}
+
+@Composable
+fun AnimalView(puppy: List<Puppy>) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        LazyVerticalGrid(columns = GridCells.Fixed(2), content = {
+            items(puppy) {
+                CardView(it.title)
+            }
+        })
+
+    }
+}
+
+@Composable
+fun CardView(text: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+            .padding(vertical = 10.dp),
+        backgroundColor = Color.LightGray,
+        border = BorderStroke(1.dp, Color.Gray),
+        shape = RoundedCornerShape(5.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                contentDescription = "Random Image",
+                modifier = Modifier
+                    .aspectRatio(1f)
+                    .fillMaxWidth()
+            )
+            Text(text)
         }
     }
 }
@@ -91,31 +213,39 @@ fun ListView(context: Context) {
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.Start
                     ) {
-                        Text("This is going to be better and work like a charm",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 10.dp)
-                            .padding(top = 10.dp),
-                        textAlign = TextAlign.Center)
+                        Text(
+                            "This is going to be better and work like a charm",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp)
+                                .padding(top = 10.dp),
+                            textAlign = TextAlign.Center
+                        )
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                         ) {
-                            Button(onClick = {
-                                Toast.makeText(context, "clicked button 1", Toast.LENGTH_LONG).show()
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth(0.5F)
-                                .padding(10.dp)) {
-                                Text(text="Click Here")
+                            Button(
+                                onClick = {
+                                    Toast.makeText(context, "clicked button 1", Toast.LENGTH_LONG)
+                                        .show()
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth(0.5F)
+                                    .padding(10.dp)
+                            ) {
+                                Text(text = "Click Here")
                             }
-                            Button(onClick = {
-                                             Toast.makeText(context, "clicked button 2", Toast.LENGTH_LONG).show()
-                            },
+                            Button(
+                                onClick = {
+                                    Toast.makeText(context, "clicked button 2", Toast.LENGTH_LONG)
+                                        .show()
+                                },
                                 modifier = Modifier
                                     .fillMaxWidth(1.0F)
-                                    .padding(10.dp)) {
-                                Text(text="Click Me")
+                                    .padding(10.dp)
+                            ) {
+                                Text(text = "Click Me")
                             }
                         }
                     }
