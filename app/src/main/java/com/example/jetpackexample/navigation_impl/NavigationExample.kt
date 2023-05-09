@@ -116,6 +116,9 @@ fun BottomNavigation(navController: NavController) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
+            /**
+             * With this, you can style your bottom nav items by adding icon, label, show label along with handling clicks for redirection to different screens
+             */
             BottomNavigationItem(
                 icon = { Icon(painterResource(id = item.icon), contentDescription = item.title) },
                 label = {
@@ -126,7 +129,7 @@ fun BottomNavigation(navController: NavController) {
                 },
                 selectedContentColor = Color.Black,
                 unselectedContentColor = Color.Black.copy(0.4f),
-                alwaysShowLabel = true,
+                alwaysShowLabel = false,
                 selected = currentRoute == item.screenRoute,
                 onClick = {
                     navController.navigate(item.screenRoute) {
