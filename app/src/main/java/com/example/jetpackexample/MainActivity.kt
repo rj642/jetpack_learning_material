@@ -2,6 +2,7 @@ package com.example.jetpackexample
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -71,6 +72,12 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SearchView()
+                        Button(onClick = {
+                            val intent = Intent(this@MainActivity, ScrollViewExample::class.java)
+                            startActivity(intent)
+                        }) {
+                            Text(text = "Navigate to ScrollView")
+                        }
                         AnimalView(puppy = puppyList)
                     }
                 }
@@ -128,16 +135,21 @@ fun AnimalView(puppy: List<Puppy>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(16.dp),
+            .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        LazyVerticalGrid(columns = GridCells.Fixed(2), content = {
-            items(puppy) {
-                CardView(it.title)
-            }
-        })
+        /**
+         * contentPadding is equivalent to xml clipToPadding=false
+         */
+
+        LazyVerticalGrid(
+            contentPadding = PaddingValues(bottom = 16.dp),
+            columns = GridCells.Fixed(2), content = {
+                items(puppy) {
+                    CardView(it.title)
+                }
+            })
 
     }
 }
