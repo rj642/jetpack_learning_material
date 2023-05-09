@@ -60,6 +60,13 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
+    // Coil for image loading
     implementation "io.coil-kt:coil-compose:1.4.0"
+
+    // Glide for image loading
     implementation "com.google.accompanist:accompanist-glide:0.10.0"
+
+    // Navigation library
+    implementation "androidx.navigation:navigation-compose:2.6.0-beta01"
 }
