@@ -35,6 +35,8 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import com.example.jetpackexample.navigation_impl.NavigationExample
+import com.example.jetpackexample.ui.theme.CustomTheme
 import com.example.jetpackexample.ui.theme.JetpackExampleTheme
 
 class MainActivity : ComponentActivity() {
@@ -71,12 +73,20 @@ class MainActivity : ComponentActivity() {
                             .fillMaxHeight(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        SearchView()
-                        Button(onClick = {
-                            val intent = Intent(this@MainActivity, ScrollViewExample::class.java)
-                            startActivity(intent)
-                        }) {
-                            Text(text = "Navigate to ScrollView")
+//                        SearchView()
+                        Row {
+                            for (i in 0..1) {
+                                Button(onClick = {
+                                    val intent = Intent(this@MainActivity, if (i == 0) ScrollViewExample::class.java else NavigationExample::class.java)
+                                    startActivity(intent)
+                                },
+                                modifier = Modifier
+                                    .padding(10.dp)) {
+                                    Text(color = Color.White,
+                                        textAlign = TextAlign.Center,
+                                        text = if (i == 0) "Navigate to ScrollView" else "Navigate to Bottom Navigation Bar")
+                                }
+                            }
                         }
                         AnimalView(puppy = puppyList)
                     }
