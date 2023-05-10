@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,13 +36,27 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import com.example.jetpackexample.login.ui.LoginActivity
 import com.example.jetpackexample.navigation_impl.NavigationExample
 import com.example.jetpackexample.ui.theme.CustomTheme
 import com.example.jetpackexample.ui.theme.JetpackExampleTheme
+import com.example.jetpackexample.util.Util.log
+import com.example.jetpackexample.util.Util.logMain
 
 class MainActivity : ComponentActivity() {
 
-    private val puppyList = mutableListOf<Puppy>()
+    private val name by lazy {
+        whatMyName()
+    }
+
+    companion object {
+        const val ITEM = "Rahul"
+        fun whatMyName(): String {
+            return "Rahul"
+        }
+    }
+
+    val puppyList = mutableListOf<Puppy>()
 
     init {
         for (i in 0..100) {
@@ -74,17 +89,18 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 //                        SearchView()
-                        Row {
-                            for (i in 0..1) {
+                        Column {
+                            for (i in 0..2) {
                                 Button(onClick = {
-                                    val intent = Intent(this@MainActivity, if (i == 0) ScrollViewExample::class.java else NavigationExample::class.java)
+                                    val intent = Intent(this@MainActivity, if (i == 0) ScrollViewExample::class.java else if(i == 1) NavigationExample::class.java else LoginActivity::class.java)
                                     startActivity(intent)
                                 },
                                 modifier = Modifier
-                                    .padding(10.dp)) {
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp)) {
                                     Text(color = Color.White,
                                         textAlign = TextAlign.Center,
-                                        text = if (i == 0) "Navigate to ScrollView" else "Navigate to Bottom Navigation Bar")
+                                        text = if (i == 0) "Navigate to ScrollView" else if (i == 1) "Navigate to Bottom Navigation Bar" else "Navigate to Login")
                                 }
                             }
                         }
@@ -163,6 +179,15 @@ fun AnimalView(puppy: List<Puppy>) {
 
     }
 }
+
+fun returnSomething() {
+
+}
+
+data class Dog(
+    var name: String,
+    var breed: String
+)
 
 @Composable
 fun CardView(text: String) {

@@ -136,7 +136,7 @@ fun ImageCardView() {
             painter = rememberGlidePainter(imageUrl),
             contentDescription = "Example Image",
             modifier = Modifier
-                .fillMaxWidth(0.24f)
+                .size(120.dp)
                 .padding(10.dp)
                 .clip(RoundedCornerShape(10.dp)),
             contentScale = ContentScale.Fit,

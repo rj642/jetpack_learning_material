@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -18,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.jetpackexample.MainActivity
 import com.example.jetpackexample.navigation_impl.home.ui.HomeUi
 import com.example.jetpackexample.navigation_impl.job.ui.JobUi
 import com.example.jetpackexample.navigation_impl.mynetwork.ui.MyNetworkUi
@@ -26,6 +28,13 @@ import com.example.jetpackexample.navigation_impl.post.ui.PostUi
 import com.example.jetpackexample.ui.theme.CustomTheme
 
 class NavigationExample : ComponentActivity() {
+
+    init {
+        MainActivity.apply {
+            ITEM
+            whatMyName()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,6 +157,7 @@ fun BottomNavigation(navController: NavController) {
     }
 }
 
+@Preview
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
